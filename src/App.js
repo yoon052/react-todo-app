@@ -3,21 +3,12 @@ import React, { useState, useCallback } from "react";
 import Lists from "./components/Lists";
 import Form from "./components/Form";
 
-export default function App() {
-  console.log("App Component");
+const initialTodoData = localStorage.getItem("todoData")
+  ? JSON.parse(localStorage.getItem("todoData"))
+  : [];
 
-  const [todoData, setTodoData] = useState([
-    {
-      id: "1",
-      title: "공부하기",
-      completed: false,
-    },
-    {
-      id: "2",
-      title: "청소하기",
-      completed: false,
-    },
-  ]);
+function App() {
+  const [todoData, setTodoData] = useState(initialTodoData);
   const [value, setValue] = useState("");
 
   const handleClick = useCallback(
@@ -25,6 +16,7 @@ export default function App() {
       let newTodoData = todoData.filter((data) => data.id !== id);
       console.log("newTodoData", newTodoData);
       setTodoData(newTodoData);
+      localStorage.setItem("todoData", JSON.stringify(newTodoData));
     },
     [todoData]
   );
@@ -34,13 +26,14 @@ export default function App() {
 
     //새로운 할 일 데이터
     let newTodo = {
-      id: Date.now(),
+      id: Date.now().toString(),
       title: value,
       completed: false,
     };
 
     //원래 있던 할 일에 새로운 할일 더해주기
     setTodoData((prev) => [...prev, newTodo]);
+    localStorage.setItem("todoData", JSON.stringify([...todoData, newTodo]));
 
     //입력란에 있던 글씨 지워주기
     setValue("");
@@ -48,6 +41,7 @@ export default function App() {
 
   const handleRemoveClick = () => {
     setTodoData([]);
+    localStorage.setItem("todoData", JSON.stringify([]));
   };
 
   return (
@@ -67,3 +61,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;

@@ -7,14 +7,15 @@ const Lists = React.memo(({ todoData, setTodoData, handleClick }) => {
 
   const handleEnd = (result) => {
     console.log("result", result);
-    if (!result.destination) return;
 
+    if (!result.destination) return;
     const newTodoData = todoData;
 
     const [reorderedItem] = newTodoData.splice(result.source.index, 1);
 
     newTodoData.splice(result.destination.index, 0, reorderedItem);
     setTodoData(newTodoData);
+    localStorage.setItem("todoData", JSON.stringify(newTodoData));
   };
   return (
     <div>
