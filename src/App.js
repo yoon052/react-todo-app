@@ -1,9 +1,11 @@
-import React, { useState } from "react";
 import "./App.css";
+import React, { useState } from "react";
 import Lists from "./components/Lists";
 import Form from "./components/Form";
 
 export default function App() {
+  console.log("App Component");
+
   const [todoData, setTodoData] = useState([]);
   const [value, setValue] = useState("");
 
